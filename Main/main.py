@@ -15,7 +15,7 @@ def generate_specification_with_template():
         "number_order": st.session_state.number_order,
         "material": st.session_state.material,
         "batch": batch,
-        "leight": st.session_state.leight,
+        "length": st.session_state.length,
         "width": st.session_state.width,
         "density": st.session_state.density,
         "name_product": st.session_state.name_product,
