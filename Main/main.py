@@ -2,28 +2,6 @@ import streamlit as st
 from docxtpl import DocxTemplate
 
 
-def check_password():
-    
-    USERNAME = "admin"
-    PASSWORD = "1234"
-
-    if "logged_in" not in st.session_state:
-        st.session_state.logged_in = False
-
-    if not st.session_state.logged_in:
-        st.title("🔒 Логін")
-        username = st.text_input("Логін")
-        password = st.text_input("Пароль", type="password")
-        if st.button("Увійти"):
-            if username == USERNAME and password == PASSWORD:
-                st.session_state.logged_in = True
-                st.success("Вхід успішний!")
-                st.experimental_rerun()
-            else:
-                st.error("Невірний логін або пароль")
-        return False
-    return True
-
 def generate_specification_with_template():
     template_path = r'D:\Work\Work\07_02_2026_packed_exe\Main\template3.docx'
     doc = DocxTemplate(template_path)
@@ -130,7 +108,7 @@ def main():
                     )
 
     st.divider()
-    
+
     st.subheader("📦 Коробки")
 
     if active_boxes:
