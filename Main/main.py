@@ -3,7 +3,7 @@ from docxtpl import DocxTemplate
 
 
 def generate_specification_with_template():
-    template_path = r'D:\Work\Work\07_02_2026_packed_exe\Main\template3.docx'
+    template_path = r'Main/template3.docx'
     doc = DocxTemplate(template_path)
 
     batch = st.session_state.batch
