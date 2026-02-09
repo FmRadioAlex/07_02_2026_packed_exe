@@ -43,22 +43,24 @@ def main():
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.text_input("Номер замовлення", key="number_order")
-        st.text_input("Матеріал упаковки", key="material")
+        st.text_input("Номер закза", key="number_order")
+        st.text_input("Материал упаковки", key="material")
         st.text_input("Лот", key="batch")
 
     with col2:
-        st.text_input("Довжина", key="leight")
+        st.number_input("Длина (мм)", key="length", min_value=0.0, step=1.0)
         st.text_input("Ширина", key="width")
-        st.text_input("Щільність", key="density")
+        st.text_input("Тощина", key="density")
 
     with col3:
-        st.number_input("Кількість коробок", key="count_box", min_value=1, step=1)
-        st.number_input("Вага (з вагів / вручну)", key="weight", step=0.01)
+        st.number_input("Количество коробок", key="count_box", min_value=1, step=1)
+        st.number_input("вес (с весов / вручну)", key="weight", step=0.01)
+        st.number_input("Количесвто штук в коробке", key="count_in_box", min_value=1, step=1)
 
     with col4:
         st.text_input("Назва товару", key="name_product")
-        st.text_input("Замовник", key="customer")
+        st.text_input("Заказчик", key="customer")
+        st.write("Почему то длина", float(st.session_state.length)*float(st.session_state.count_in_box/1000))
 
   
     batch = st.session_state.batch
@@ -79,9 +81,9 @@ def main():
     col_btn1, col_btn2, col_btn3 = st.columns(3)
 
     with col_btn1:
-        if st.button("⚖️ Зважити коробку"):
+        if st.button("⚖️ Звесить коробку"):
             if not batch:
-                st.warning("Введіть лот")
+                st.warning("Ведите лот")
             elif len(active_boxes) < st.session_state.count_box:
                 active_boxes.append({
                     "box_no": len(active_boxes) + 1,
@@ -91,7 +93,7 @@ def main():
                 st.warning("Досягнуто заявлену кількість коробок")
 
     with col_btn2:
-        if st.button("❌ Видалити останню"):
+        if st.button("❌ Удалить последнюю коробку"):
             if active_boxes:
                 active_boxes.pop()
 
@@ -101,7 +103,7 @@ def main():
                 generate_specification_with_template()
                 with open("generated_specification.docx", "rb") as f:
                     st.download_button(
-                        "⬇️ Завантажити Word",
+                        "⬇️ Скачать Word",
                         f,
                         file_name=f"specification_{batch}.docx",
                         mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -131,7 +133,7 @@ def main():
                 st.write("кг")
 
         total_weight = sum(box["box_weight"] for box in active_boxes)
-        st.success(f"🔢 Загальна вага лоту: **{round(total_weight, 2)} кг**")
+        st.success(f"🔢 Обший вес лота: **{round(total_weight, 2)} кг**")
 
         st.info(f"Зважено: {len(active_boxes)} / {st.session_state.count_box} коробок")
 
